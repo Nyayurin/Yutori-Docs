@@ -1,7 +1,7 @@
 package cn.nyayurin.yutori.document.componments
 
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,10 +31,10 @@ fun Description(modifier: Modifier = Modifier) {
 
 @Composable
 fun Start(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    ElevatedButton(
+    FilledTonalButton(
         onClick = onClick,
-        elevation = ButtonDefaults.elevatedButtonElevation(16.dp, 16.dp, 16.dp, 16.dp),
-        modifier = modifier
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp)
     ) {
         Text(
             text = "即刻起步",

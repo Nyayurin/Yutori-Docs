@@ -1,5 +1,6 @@
 package cn.nyayurin.yutori.document
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,17 +11,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowWidthSizeClass
 import cn.nyayurin.yutori.document.componments.Description
@@ -28,6 +38,7 @@ import cn.nyayurin.yutori.document.componments.Navigation
 import cn.nyayurin.yutori.document.componments.Start
 import cn.nyayurin.yutori.document.componments.Title
 import cn.nyayurin.yutori.document.componments.document.Body
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoadingScreen() {
@@ -70,20 +81,53 @@ fun DocumentScreen(
     onBack: () -> Unit,
     windowWidth: WindowWidthSizeClass = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
 ) {
+    val scope = rememberCoroutineScope()
     var currentDestination: DocumentDestination by remember { mutableStateOf(DocumentDestination.Introduction) }
     when (windowWidth) {
         WindowWidthSizeClass.COMPACT -> {
-            Navigation(
-                onBack = onBack,
-                destination = currentDestination,
-                onNavigation = { destination ->
-                    currentDestination = destination
+            val drawerState = rememberDrawerState(DrawerValue.Closed)
+            ModalNavigationDrawer(
+                drawerState = drawerState,
+                drawerContent = {
+                    ModalDrawerSheet(drawerContainerColor = Color.Transparent) {
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(300.dp),
+                            shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp),
+                            color = MaterialTheme.colorScheme.surfaceVariant
+                        ) {
+                            Navigation(
+                                onBack = onBack,
+                                destination = currentDestination,
+                                onNavigation = { destination ->
+                                    currentDestination = destination
+                                },
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                    }
                 }
-            )
-            Body(
-                destination = currentDestination,
-                modifier = Modifier.fillMaxSize()
-            )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(32.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        }
+                    )
+                    Body(
+                        destination = currentDestination,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
         }
 
         WindowWidthSizeClass.MEDIUM -> {
@@ -108,7 +152,7 @@ fun DocumentScreen(
                     destination = currentDestination,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(64.dp)
+                        .padding(32.dp)
                 )
             }
         }
