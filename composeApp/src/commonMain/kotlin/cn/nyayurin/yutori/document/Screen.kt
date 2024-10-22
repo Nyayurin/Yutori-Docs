@@ -110,7 +110,7 @@ fun DocumentScreen(
                 }
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
                     Icon(
@@ -152,7 +152,7 @@ fun DocumentScreen(
                     destination = currentDestination,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(32.dp)
+                        .padding(start = 32.dp, top = 32.dp, end = 32.dp)
                 )
             }
         }
@@ -179,7 +179,7 @@ fun DocumentScreen(
                     destination = currentDestination,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(64.dp)
+                        .padding(start = 64.dp, top = 64.dp, end = 64.dp)
                 )
             }
         }

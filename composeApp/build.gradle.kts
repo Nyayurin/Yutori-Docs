@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.serialization)
@@ -12,12 +10,6 @@ kotlin {
         browser()
         binaries.executable()
         useEsModules()
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
     }
 
     sourceSets {
@@ -36,6 +28,7 @@ kotlin {
             implementation(libs.compose.material3.adaptive.layout)
             implementation(libs.compose.material3.adaptive.navigation)
             implementation(libs.compose.material3.adaptive.navigation.suite)
+            implementation(libs.kodeview)
         }
     }
 }
