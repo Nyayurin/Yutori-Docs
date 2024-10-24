@@ -1,9 +1,10 @@
 package cn.nyayurin.yutori.document.componments.document
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
@@ -18,26 +19,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cn.nyayurin.yutori.document.DocumentDestination
 import cn.nyayurin.yutori.document.appendUrl
 import cn.nyayurin.yutori.document.componments.Code
-import dev.snipme.highlights.model.SyntaxLanguage
 
 @Composable
 fun Body(
+    state: ScrollState,
     destination: DocumentDestination,
+    ender: Dp,
     modifier: Modifier = Modifier
 ) {
     SelectionContainer(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(state),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             when (destination) {
-                DocumentDestination.Introduction -> Introduction()
+                DocumentDestination.Introduction -> Introduction(ender = ender)
                 is DocumentDestination.Resource -> Resource(destination.destination)
                 is DocumentDestination.Advanced -> Advanced(destination.destination)
             }
@@ -46,7 +49,7 @@ fun Body(
 }
 
 @Composable
-private fun Introduction() {
+private fun Introduction(ender: Dp) {
     Text(
         text = "介绍",
         style = MaterialTheme.typography.headlineLarge
@@ -166,7 +169,7 @@ private fun Introduction() {
                 text = "修改 gradle.properties, 将你 Github 账号的 username 及刚刚创建的 token 填进去",
                 style = MaterialTheme.typography.bodyLarge
             )
-            Code(SyntaxLanguage.DEFAULT) {
+            Code {
                 """
                     gpr.actor = actor
                     gpr.token = token
@@ -176,7 +179,7 @@ private fun Introduction() {
                 text = "或是通过环境变量提供",
                 style = MaterialTheme.typography.bodyLarge
             )
-            Code(SyntaxLanguage.DEFAULT) {
+            Code {
                 """
                     GITHUB_ACTOR = actor
                     GITHUB_TOKEN = token
@@ -239,7 +242,7 @@ private fun Introduction() {
                     when (implementationSelected) {
                         GradleImplementation.VersionCatalog.ordinal -> {
                             Code { "implementation(libs.yutori)" }
-                            Code(SyntaxLanguage.DEFAULT) {
+                            Code {
                                 """
                                     [versions]
                                     yutori = "version"
@@ -383,6 +386,7 @@ private fun Introduction() {
     }
     Text(
         text = "至此, 你已经学会了 Yutori 的基本使用, 接下来请慢慢探索 Yutori 的无限可能吧!",
+        modifier = Modifier.padding(bottom = ender),
         style = MaterialTheme.typography.bodyLarge
     )
 }

@@ -7,7 +7,6 @@ lifecycle = "2.8.2"
 navigation = "2.8.0-alpha10"
 compose-placeholder = "1.0.8"
 compose-material3-adaptive = "1.0.0-rc01"
-kodeview = "0.8.0"
 
 [libraries]
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -19,7 +18,6 @@ compose-material3-adaptive = { module = "org.jetbrains.compose.material3.adaptiv
 compose-material3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "compose-material3-adaptive" }
 compose-material3-adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "compose-material3-adaptive" }
 compose-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "compose" }
-kodeview = { module = "dev.snipme:kodeview", version.ref = "kodeview" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

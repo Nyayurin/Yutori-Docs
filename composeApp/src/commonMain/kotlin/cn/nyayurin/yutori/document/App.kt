@@ -1,10 +1,12 @@
 package cn.nyayurin.yutori.document
 
+import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import cn.nyayurin.yutori.document.theme.LocalDarkMode
 import cn.nyayurin.yutori.document.theme.Theme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.getFontResourceBytes
@@ -31,31 +34,35 @@ fun App(viewModel: MainViewModel = viewModel { MainViewModel() }) {
     val navController = rememberNavController()
     var typography by remember { mutableStateOf<Typography?>(null) }
     val defaultTypography = MaterialTheme.typography
-    Theme(
-        darkMode = viewModel.darkMode ?: isSystemInDarkTheme(),
-        typography = typography ?: defaultTypography
+    val darkMode = viewModel.darkMode ?: isSystemInDarkTheme()
+    val scrollbarStyle = if (darkMode) darkScrollbarStyle() else lightScrollbarStyle()
+    CompositionLocalProvider(
+        LocalDarkMode provides darkMode,
+        LocalScrollbarStyle provides scrollbarStyle
     ) {
-        NavHost(
-            navController = navController,
-            startDestination = ScreenDestination.Loading,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            composable<ScreenDestination.Loading> {
-                LoadingScreen()
-            }
-            composable<ScreenDestination.Home> {
-                HomeScreen(
-                    onStart = {
-                        navController.navigate(ScreenDestination.Document)
-                    }
-                )
-            }
-            composable<ScreenDestination.Document> {
-                DocumentScreen(
-                    onBack = {
-                        navController.popBackStack()
-                    }
-                )
+        Theme(typography = typography ?: defaultTypography) {
+            NavHost(
+                navController = navController,
+                startDestination = ScreenDestination.Loading,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                composable<ScreenDestination.Loading> {
+                    LoadingScreen()
+                }
+                composable<ScreenDestination.Home> {
+                    HomeScreen(
+                        onStart = {
+                            navController.navigate(ScreenDestination.Document)
+                        }
+                    )
+                }
+                composable<ScreenDestination.Document> {
+                    DocumentScreen(
+                        onBack = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
         }
     }
@@ -63,7 +70,10 @@ fun App(viewModel: MainViewModel = viewModel { MainViewModel() }) {
         val fontFamily = FontFamily(
             Font(
                 identity = "MiSans-Regular",
-                data = getFontResourceBytes(getSystemResourceEnvironment(), Res.font.MapleMono_NF_CN_Regular)
+                data = getFontResourceBytes(
+                    environment = getSystemResourceEnvironment(),
+                    resource = Res.font.MapleMono_NF_CN_Regular
+                )
             )
         )
         typography = Typography(
