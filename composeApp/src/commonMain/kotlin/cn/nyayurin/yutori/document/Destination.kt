@@ -20,10 +20,14 @@ sealed class DocumentDestination {
     data object Introduction : DocumentDestination()
 
     @Serializable
-    data class Resource(val destination: ResourceDestination) : DocumentDestination()
+    data class Resource(
+        val destination: ResourceDestination,
+    ) : DocumentDestination()
 
     @Serializable
-    data class Advanced(val destination: AdvancedDestination) : DocumentDestination()
+    data class Advanced(
+        val destination: AdvancedDestination,
+    ) : DocumentDestination()
 
     @Serializable
     sealed class ResourceDestination {

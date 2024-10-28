@@ -38,13 +38,13 @@ fun App(viewModel: MainViewModel = viewModel { MainViewModel() }) {
     val scrollbarStyle = if (darkMode) darkScrollbarStyle() else lightScrollbarStyle()
     CompositionLocalProvider(
         LocalDarkMode provides darkMode,
-        LocalScrollbarStyle provides scrollbarStyle
+        LocalScrollbarStyle provides scrollbarStyle,
     ) {
         Theme(typography = typography ?: defaultTypography) {
             NavHost(
                 navController = navController,
                 startDestination = ScreenDestination.Loading,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 composable<ScreenDestination.Loading> {
                     LoadingScreen()
@@ -53,46 +53,49 @@ fun App(viewModel: MainViewModel = viewModel { MainViewModel() }) {
                     HomeScreen(
                         onStart = {
                             navController.navigate(ScreenDestination.Document)
-                        }
+                        },
                     )
                 }
                 composable<ScreenDestination.Document> {
                     DocumentScreen(
                         onBack = {
                             navController.popBackStack()
-                        }
+                        },
                     )
                 }
             }
         }
     }
     LaunchedEffect(Unit) {
-        val fontFamily = FontFamily(
-            Font(
-                identity = "MiSans-Regular",
-                data = getFontResourceBytes(
-                    environment = getSystemResourceEnvironment(),
-                    resource = Res.font.MapleMono_NF_CN_Regular
-                )
+        val fontFamily =
+            FontFamily(
+                Font(
+                    identity = "MiSans-Regular",
+                    data =
+                        getFontResourceBytes(
+                            environment = getSystemResourceEnvironment(),
+                            resource = Res.font.MapleMono_NF_CN_Regular,
+                        ),
+                ),
             )
-        )
-        typography = Typography(
-            defaultTypography.displayLarge.copy(fontFamily = fontFamily),
-            defaultTypography.displayMedium.copy(fontFamily = fontFamily),
-            defaultTypography.displaySmall.copy(fontFamily = fontFamily),
-            defaultTypography.headlineLarge.copy(fontFamily = fontFamily),
-            defaultTypography.headlineMedium.copy(fontFamily = fontFamily),
-            defaultTypography.headlineSmall.copy(fontFamily = fontFamily),
-            defaultTypography.titleLarge.copy(fontFamily = fontFamily),
-            defaultTypography.titleMedium.copy(fontFamily = fontFamily),
-            defaultTypography.titleSmall.copy(fontFamily = fontFamily),
-            defaultTypography.bodyLarge.copy(fontFamily = fontFamily),
-            defaultTypography.bodyMedium.copy(fontFamily = fontFamily),
-            defaultTypography.bodySmall.copy(fontFamily = fontFamily),
-            defaultTypography.labelLarge.copy(fontFamily = fontFamily),
-            defaultTypography.labelMedium.copy(fontFamily = fontFamily),
-            defaultTypography.labelSmall.copy(fontFamily = fontFamily)
-        )
+        typography =
+            Typography(
+                defaultTypography.displayLarge.copy(fontFamily = fontFamily),
+                defaultTypography.displayMedium.copy(fontFamily = fontFamily),
+                defaultTypography.displaySmall.copy(fontFamily = fontFamily),
+                defaultTypography.headlineLarge.copy(fontFamily = fontFamily),
+                defaultTypography.headlineMedium.copy(fontFamily = fontFamily),
+                defaultTypography.headlineSmall.copy(fontFamily = fontFamily),
+                defaultTypography.titleLarge.copy(fontFamily = fontFamily),
+                defaultTypography.titleMedium.copy(fontFamily = fontFamily),
+                defaultTypography.titleSmall.copy(fontFamily = fontFamily),
+                defaultTypography.bodyLarge.copy(fontFamily = fontFamily),
+                defaultTypography.bodyMedium.copy(fontFamily = fontFamily),
+                defaultTypography.bodySmall.copy(fontFamily = fontFamily),
+                defaultTypography.labelLarge.copy(fontFamily = fontFamily),
+                defaultTypography.labelMedium.copy(fontFamily = fontFamily),
+                defaultTypography.labelSmall.copy(fontFamily = fontFamily),
+            )
         viewModel.fontLoaded = true
         navController.navigate(ScreenDestination.Home)
     }

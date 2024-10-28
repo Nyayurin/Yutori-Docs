@@ -13,17 +13,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 
 @Composable
-fun ClickableText(text: String, isFocused: Boolean, onClick: () -> Unit, style: TextStyle) {
+fun ClickableText(
+    text: String,
+    isFocused: Boolean,
+    onClick: () -> Unit,
+    style: TextStyle,
+) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
     Text(
         text = text,
-        modifier = Modifier.clickable(
-            interactionSource = interactionSource,
-            indication = null,
-            onClick = onClick
-        ),
+        modifier =
+            Modifier.clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick,
+            ),
         color = if (isHovered || isFocused) MaterialTheme.colorScheme.primary else Color.Unspecified,
-        style = style
+        style = style,
     )
 }

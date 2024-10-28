@@ -24,80 +24,71 @@ fun Resource(destination: DocumentDestination.ResourceDestination) {
 @Composable
 private fun Channel() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun Guild() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun GuildMember() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun GuildRole() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun Interaction() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun Login() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun Message() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun Reaction() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun User() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }

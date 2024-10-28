@@ -22,22 +22,24 @@ fun Code(code: () -> String) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest
+        color = MaterialTheme.colorScheme.surfaceContainerLowest,
     ) {
         Box {
             Text(
                 text = code(),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .horizontalScroll(state),
+                modifier =
+                    Modifier
+                        .padding(16.dp)
+                        .horizontalScroll(state),
                 softWrap = false,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
             HorizontalScrollbar(
                 adapter = rememberScrollbarAdapter(state),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(horizontal = 12.dp)
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = 12.dp),
             )
         }
     }

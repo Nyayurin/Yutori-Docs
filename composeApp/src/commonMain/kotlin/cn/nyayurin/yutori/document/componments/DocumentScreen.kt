@@ -17,30 +17,30 @@ fun Navigation(
     onBack: () -> Unit,
     destination: DocumentDestination,
     onNavigation: (DocumentDestination) -> Unit,
-    modifier: Modifier = Modifier.width(300.dp)
+    modifier: Modifier = Modifier.width(300.dp),
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = modifier
+        modifier = modifier,
     ) {
         ClickableText(
             text = "Yutori",
             isFocused = false,
             onClick = onBack,
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
         )
         HorizontalDivider(color = LocalContentColor.current)
         ClickableText(
             text = "介绍",
             isFocused = destination == DocumentDestination.Introduction,
             onClick = { onNavigation(DocumentDestination.Introduction) },
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge,
         )
         HorizontalDivider(color = LocalContentColor.current)
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Text(
                 text = "资源",
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
             ClickableText(
                 text = "频道 (Channel)",
@@ -48,7 +48,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.Channel))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "群组 (Guild)",
@@ -56,7 +56,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.Guild))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "群组成员 (GuildMember)",
@@ -64,7 +64,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.GuildMember))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "群组角色 (GuildRole)",
@@ -72,7 +72,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.GuildRole))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "交互 (Interaction)",
@@ -80,7 +80,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.Interaction))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "登录信息 (Login)",
@@ -88,7 +88,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.Login))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "消息 (Message)",
@@ -96,7 +96,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.Message))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "表态 (Reaction)",
@@ -104,7 +104,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.Reaction))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "用户 (User)",
@@ -112,14 +112,14 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Resource(DocumentDestination.ResourceDestination.User))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
         }
         HorizontalDivider(color = LocalContentColor.current)
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Text(
                 text = "进阶",
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
             ClickableText(
                 text = "多平台",
@@ -127,7 +127,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Advanced(DocumentDestination.AdvancedDestination.Multiplatform))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "资源链接",
@@ -135,7 +135,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Advanced(DocumentDestination.AdvancedDestination.Resource))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             ClickableText(
                 text = "管理接口",
@@ -143,7 +143,7 @@ fun Navigation(
                 onClick = {
                     onNavigation(DocumentDestination.Advanced(DocumentDestination.AdvancedDestination.Admin))
                 },
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
         }
     }

@@ -18,26 +18,23 @@ fun Advanced(destination: DocumentDestination.AdvancedDestination) {
 @Composable
 private fun Multiplatform() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun Resource() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
 
 @Composable
 private fun Admin() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-
     }
 }
