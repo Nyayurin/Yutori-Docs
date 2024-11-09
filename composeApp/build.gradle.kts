@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.serialization)
@@ -6,10 +8,10 @@ plugins {
 }
 
 kotlin {
-    js {
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
         browser()
         binaries.executable()
-        useEsModules()
     }
 
     sourceSets {

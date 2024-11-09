@@ -16,10 +16,10 @@ jobs:
           architecture: 'x64'
           cache: 'gradle'
       - run: chmod +x ./gradlew
-      - run: ./gradlew :composeApp:jsBrowserDistribution
+      - run: ./gradlew :composeApp:wasmJsBrowserDistribution
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: composeApp/build/dist/js/productionExecutable
+          path: composeApp/build/dist/wasmJs/productionExecutable
   deploy:
     needs: build
     runs-on: ubuntu-latest
