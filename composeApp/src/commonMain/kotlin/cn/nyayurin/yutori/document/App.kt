@@ -20,7 +20,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import cn.nyayurin.yutori.document.theme.LocalDarkMode
 import cn.nyayurin.yutori.document.theme.Theme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.getFontResourceBytes
@@ -37,10 +36,12 @@ fun App(viewModel: MainViewModel = viewModel { MainViewModel() }) {
     val darkMode = viewModel.darkMode ?: isSystemInDarkTheme()
     val scrollbarStyle = if (darkMode) darkScrollbarStyle() else lightScrollbarStyle()
     CompositionLocalProvider(
-        LocalDarkMode provides darkMode,
         LocalScrollbarStyle provides scrollbarStyle,
     ) {
-        Theme(typography = typography ?: defaultTypography) {
+        Theme(
+            darkMode = darkMode,
+            typography = typography ?: defaultTypography,
+        ) {
             NavHost(
                 navController = navController,
                 startDestination = ScreenDestination.Loading,
@@ -58,6 +59,10 @@ fun App(viewModel: MainViewModel = viewModel { MainViewModel() }) {
                 }
                 composable<ScreenDestination.Document> {
                     DocumentScreen(
+                        darkMode = darkMode,
+                        onChangeDarkMode = {
+                            viewModel.darkMode = it
+                        },
                         onBack = {
                             navController.popBackStack()
                         },

@@ -11,7 +11,6 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
@@ -95,11 +94,12 @@ private val darkScheme =
 
 @Composable
 fun Theme(
+    darkMode: Boolean,
     typography: Typography,
     content: @Composable () -> Unit,
 ) {
     val color =
-        when (LocalDarkMode.current) {
+        when (darkMode) {
             true -> darkScheme
             else -> lightScheme
         }
@@ -156,5 +156,3 @@ fun Theme(
         }
     }
 }
-
-val LocalDarkMode = staticCompositionLocalOf { false }

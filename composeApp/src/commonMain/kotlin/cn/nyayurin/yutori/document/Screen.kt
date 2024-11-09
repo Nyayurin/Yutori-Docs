@@ -1,5 +1,6 @@
 package cn.nyayurin.yutori.document
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -81,19 +82,77 @@ fun HomeScreen(onStart: () -> Unit) {
 
 @Composable
 fun DocumentScreen(
+    darkMode: Boolean,
+    onChangeDarkMode: (Boolean) -> Unit,
     onBack: () -> Unit,
     windowWidth: WindowWidthSizeClass = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass,
 ) {
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     var currentDestination: DocumentDestination by remember { mutableStateOf(DocumentDestination.Introduction) }
-    when (windowWidth) {
-        WindowWidthSizeClass.COMPACT -> {
-            val drawerState = rememberDrawerState(DrawerValue.Closed)
-            ModalNavigationDrawer(
-                drawerState = drawerState,
-                drawerContent = {
-                    ModalDrawerSheet(drawerContainerColor = Color.Transparent) {
+    AnimatedContent(targetState = windowWidth) {
+        when (it) {
+            WindowWidthSizeClass.COMPACT -> {
+                val drawerState = rememberDrawerState(DrawerValue.Closed)
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        ModalDrawerSheet(drawerContainerColor = Color.Transparent) {
+                            Surface(
+                                modifier =
+                                    Modifier
+                                        .fillMaxHeight()
+                                        .width(300.dp),
+                                shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp),
+                                color = MaterialTheme.colorScheme.surfaceVariant,
+                            ) {
+                                Navigation(
+                                    darkMode = darkMode,
+                                    onChangeDarkMode = onChangeDarkMode,
+                                    onBack = onBack,
+                                    destination = currentDestination,
+                                    onNavigation = { destination ->
+                                        currentDestination = destination
+                                    },
+                                    modifier = Modifier.padding(16.dp),
+                                )
+                            }
+                        }
+                    },
+                ) {
+                    Box {
+                        Column(
+                            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(32.dp),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = null,
+                                modifier =
+                                    Modifier.clickable {
+                                        scope.launch {
+                                            drawerState.open()
+                                        }
+                                    },
+                            )
+                            Body(
+                                state = scrollState,
+                                destination = currentDestination,
+                                ender = 16.dp,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
+                        VerticalScrollbar(
+                            adapter = rememberScrollbarAdapter(scrollState),
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                        )
+                    }
+                }
+            }
+
+            WindowWidthSizeClass.MEDIUM -> {
+                Box {
+                    Row(modifier = Modifier.fillMaxSize()) {
                         Surface(
                             modifier =
                                 Modifier
@@ -103,37 +162,24 @@ fun DocumentScreen(
                             color = MaterialTheme.colorScheme.surfaceVariant,
                         ) {
                             Navigation(
+                                darkMode = darkMode,
+                                onChangeDarkMode = onChangeDarkMode,
                                 onBack = onBack,
                                 destination = currentDestination,
                                 onNavigation = { destination ->
                                     currentDestination = destination
                                 },
-                                modifier = Modifier.padding(16.dp),
+                                modifier = Modifier.padding(32.dp),
                             )
                         }
-                    }
-                },
-            ) {
-                Box {
-                    Column(
-                        modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(32.dp),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = null,
-                            modifier =
-                                Modifier.clickable {
-                                    scope.launch {
-                                        drawerState.open()
-                                    }
-                                },
-                        )
                         Body(
                             state = scrollState,
                             destination = currentDestination,
-                            ender = 16.dp,
-                            modifier = Modifier.fillMaxSize(),
+                            ender = 32.dp,
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(start = 32.dp, top = 32.dp, end = 32.dp),
                         )
                     }
                     VerticalScrollbar(
@@ -142,79 +188,44 @@ fun DocumentScreen(
                     )
                 }
             }
-        }
 
-        WindowWidthSizeClass.MEDIUM -> {
-            Box {
-                Row(modifier = Modifier.fillMaxSize()) {
-                    Surface(
-                        modifier =
-                            Modifier
-                                .fillMaxHeight()
-                                .width(300.dp),
-                        shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant,
-                    ) {
-                        Navigation(
-                            onBack = onBack,
+            WindowWidthSizeClass.EXPANDED -> {
+                Box {
+                    Row(modifier = Modifier.fillMaxSize()) {
+                        Surface(
+                            modifier =
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(300.dp),
+                            shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp),
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                        ) {
+                            Navigation(
+                                darkMode = darkMode,
+                                onChangeDarkMode = onChangeDarkMode,
+                                onBack = onBack,
+                                destination = currentDestination,
+                                onNavigation = { destination ->
+                                    currentDestination = destination
+                                },
+                                modifier = Modifier.padding(32.dp),
+                            )
+                        }
+                        Body(
+                            state = scrollState,
                             destination = currentDestination,
-                            onNavigation = { destination ->
-                                currentDestination = destination
-                            },
-                            modifier = Modifier.padding(32.dp),
+                            ender = 64.dp,
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(start = 64.dp, top = 64.dp, end = 64.dp),
                         )
                     }
-                    Body(
-                        state = scrollState,
-                        destination = currentDestination,
-                        ender = 32.dp,
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(start = 32.dp, top = 32.dp, end = 32.dp),
+                    VerticalScrollbar(
+                        adapter = rememberScrollbarAdapter(scrollState),
+                        modifier = Modifier.align(Alignment.CenterEnd),
                     )
                 }
-                VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(scrollState),
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                )
-            }
-        }
-
-        WindowWidthSizeClass.EXPANDED -> {
-            Box {
-                Row(modifier = Modifier.fillMaxSize()) {
-                    Surface(
-                        modifier =
-                            Modifier
-                                .fillMaxHeight()
-                                .width(300.dp),
-                        shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant,
-                    ) {
-                        Navigation(
-                            onBack = onBack,
-                            destination = currentDestination,
-                            onNavigation = { destination ->
-                                currentDestination = destination
-                            },
-                            modifier = Modifier.padding(32.dp),
-                        )
-                    }
-                    Body(
-                        state = scrollState,
-                        destination = currentDestination,
-                        ender = 64.dp,
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(start = 64.dp, top = 64.dp, end = 64.dp),
-                    )
-                }
-                VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(scrollState),
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                )
             }
         }
     }

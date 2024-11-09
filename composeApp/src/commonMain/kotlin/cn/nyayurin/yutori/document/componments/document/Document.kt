@@ -1,5 +1,6 @@
 package cn.nyayurin.yutori.document.componments.document
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,18 +33,22 @@ fun Body(
     ender: Dp,
     modifier: Modifier = Modifier,
 ) {
-    SelectionContainer(modifier = modifier) {
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(state),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            when (destination) {
-                DocumentDestination.Introduction -> Introduction(ender = ender)
-                is DocumentDestination.Resource -> Resource(destination.destination)
-                is DocumentDestination.Advanced -> Advanced(destination.destination)
+    AnimatedContent(
+        targetState = destination,
+    ) {
+        SelectionContainer(modifier = modifier) {
+            Column(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(state),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                when (it) {
+                    DocumentDestination.Introduction -> Introduction(ender = ender)
+                    is DocumentDestination.Resource -> Resource(it.destination)
+                    is DocumentDestination.Advanced -> Advanced(it.destination)
+                }
             }
         }
     }
