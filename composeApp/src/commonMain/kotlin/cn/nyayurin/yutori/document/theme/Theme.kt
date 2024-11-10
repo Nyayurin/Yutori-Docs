@@ -1,7 +1,7 @@
 package cn.nyayurin.yutori.document.theme
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -104,7 +104,7 @@ fun Theme(
             else -> lightScheme
         }
 
-    val animationSpec = remember { tween<Color>(600) }
+    val animationSpec = remember { spring<Color>() }
     val colorScheme =
         ColorScheme(
             animateColorAsState(color.primary, animationSpec).value,

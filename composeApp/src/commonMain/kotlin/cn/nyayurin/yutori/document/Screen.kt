@@ -90,7 +90,9 @@ fun DocumentScreen(
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     var currentDestination: DocumentDestination by remember { mutableStateOf(DocumentDestination.Introduction) }
-    AnimatedContent(targetState = windowWidth) {
+    AnimatedContent(
+        targetState = windowWidth,
+    ) {
         when (it) {
             WindowWidthSizeClass.COMPACT -> {
                 val drawerState = rememberDrawerState(DrawerValue.Closed)

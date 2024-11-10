@@ -1,5 +1,8 @@
 package cn.nyayurin.yutori.document
 
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +49,12 @@ fun App(viewModel: MainViewModel = viewModel { MainViewModel() }) {
                 navController = navController,
                 startDestination = ScreenDestination.Loading,
                 modifier = Modifier.fillMaxSize(),
+                enterTransition = {
+                    fadeIn(spring())
+                },
+                exitTransition = {
+                    fadeOut(spring())
+                },
             ) {
                 composable<ScreenDestination.Loading> {
                     LoadingScreen()
