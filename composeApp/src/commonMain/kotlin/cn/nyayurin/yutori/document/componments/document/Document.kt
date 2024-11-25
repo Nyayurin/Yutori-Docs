@@ -104,7 +104,7 @@ private fun Introduction(padding: Dp) {
         maven {
             url = uri("https://maven.pkg.github.com/Nyayurin/yutori")
             credentials { 
-                // 填入你的 Github 用户民及刚刚申请的 token
+                // 填入你的 Github 用户名及刚刚申请的 token
                 username = "actor"
                 password = "token"
             }
