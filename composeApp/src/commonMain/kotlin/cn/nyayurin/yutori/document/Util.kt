@@ -2,6 +2,8 @@ package cn.nyayurin.yutori.document
 
 import androidx.compose.foundation.ScrollbarStyle
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
@@ -11,6 +13,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 
+@Composable
 fun AnnotatedString.Builder.appendUrl(
     text: String,
     url: String,
@@ -21,7 +24,7 @@ fun AnnotatedString.Builder.appendUrl(
             styles =
                 TextLinkStyles(
                     SpanStyle(
-                        color = Color(51, 102, 204),
+                        color = MaterialTheme.colorScheme.primary,
                         textDecoration = TextDecoration.Underline,
                     ),
                 ),

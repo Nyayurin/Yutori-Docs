@@ -1,94 +1,108 @@
 package cn.nyayurin.yutori.document.componments.document
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import cn.nyayurin.yutori.document.DocumentDestination
 
 @Composable
-fun Resource(destination: DocumentDestination.ResourceDestination) {
+fun Resource(
+    destination: DocumentDestination.ResourceDestination,
+    padding: Dp,
+) {
     when (destination) {
-        DocumentDestination.ResourceDestination.Channel -> Channel()
-        DocumentDestination.ResourceDestination.Guild -> Guild()
-        DocumentDestination.ResourceDestination.GuildMember -> GuildMember()
-        DocumentDestination.ResourceDestination.GuildRole -> GuildRole()
-        DocumentDestination.ResourceDestination.Interaction -> Interaction()
-        DocumentDestination.ResourceDestination.Login -> Login()
-        DocumentDestination.ResourceDestination.Message -> Message()
-        DocumentDestination.ResourceDestination.Reaction -> Reaction()
-        DocumentDestination.ResourceDestination.User -> User()
+        DocumentDestination.ResourceDestination.Channel -> Channel(padding)
+        DocumentDestination.ResourceDestination.Guild -> Guild(padding)
+        DocumentDestination.ResourceDestination.GuildMember -> GuildMember(padding)
+        DocumentDestination.ResourceDestination.GuildRole -> GuildRole(padding)
+        DocumentDestination.ResourceDestination.Interaction -> Interaction(padding)
+        DocumentDestination.ResourceDestination.Login -> Login(padding)
+        DocumentDestination.ResourceDestination.Message -> Message(padding)
+        DocumentDestination.ResourceDestination.Reaction -> Reaction(padding)
+        DocumentDestination.ResourceDestination.User -> User(padding)
     }
 }
 
 @Composable
-private fun Channel() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Channel(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun Guild() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Guild(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun GuildMember() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun GuildMember(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun GuildRole() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun GuildRole(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun Interaction() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Interaction(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun Login() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Login(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun Message() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Message(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun Reaction() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Reaction(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun User() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun User(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }

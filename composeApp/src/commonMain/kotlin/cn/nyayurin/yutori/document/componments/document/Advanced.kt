@@ -1,40 +1,48 @@
 package cn.nyayurin.yutori.document.componments.document
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import cn.nyayurin.yutori.document.DocumentDestination
 
 @Composable
-fun Advanced(destination: DocumentDestination.AdvancedDestination) {
+fun Advanced(
+    destination: DocumentDestination.AdvancedDestination,
+    padding: Dp,
+) {
     when (destination) {
-        DocumentDestination.AdvancedDestination.Multiplatform -> Multiplatform()
-        DocumentDestination.AdvancedDestination.Resource -> Resource()
-        DocumentDestination.AdvancedDestination.Admin -> Admin()
+        DocumentDestination.AdvancedDestination.Multiplatform -> Multiplatform(padding)
+        DocumentDestination.AdvancedDestination.Resource -> Resource(padding)
+        DocumentDestination.AdvancedDestination.Admin -> Admin(padding)
     }
 }
 
 @Composable
-private fun Multiplatform() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Multiplatform(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun Resource() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Resource(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
-private fun Admin() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-    }
+private fun Admin(padding: Dp) {
+    Text(
+        text = "Coming soon...",
+        modifier = Modifier.padding(vertical = padding),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }

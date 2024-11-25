@@ -2,22 +2,16 @@ package cn.nyayurin.yutori.document.componments.document
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.Dp
@@ -30,34 +24,42 @@ import cn.nyayurin.yutori.document.componments.Code
 fun Body(
     state: ScrollState,
     destination: DocumentDestination,
-    ender: Dp,
+    padding: Dp,
     modifier: Modifier = Modifier,
 ) {
-    AnimatedContent(
-        targetState = destination,
-    ) {
-        SelectionContainer(modifier = modifier) {
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .verticalScroll(state),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                when (it) {
-                    DocumentDestination.Introduction -> Introduction(ender = ender)
-                    is DocumentDestination.Resource -> Resource(it.destination)
-                    is DocumentDestination.Advanced -> Advanced(it.destination)
+    Box(modifier = modifier) {
+        AnimatedContent(
+            targetState = destination,
+        ) {
+            SelectionContainer {
+                Column(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(state)
+                            .padding(horizontal = padding),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    when (it) {
+                        DocumentDestination.Introduction -> Introduction(padding)
+                        is DocumentDestination.Resource -> Resource(it.destination, padding)
+                        is DocumentDestination.Advanced -> Advanced(it.destination, padding)
+                    }
                 }
             }
         }
+        VerticalScrollbar(
+            adapter = rememberScrollbarAdapter(state),
+            modifier = Modifier.align(Alignment.CenterEnd),
+        )
     }
 }
 
 @Composable
-private fun Introduction(ender: Dp) {
+private fun Introduction(padding: Dp) {
     Text(
         text = "介绍",
+        modifier = Modifier.padding(top = padding),
         style = MaterialTheme.typography.headlineLarge,
     )
     Text(
@@ -97,195 +99,24 @@ private fun Introduction(ender: Dp) {
             },
         style = MaterialTheme.typography.bodyLarge,
     )
-    // Package Manager
-    var pmSelected by remember { mutableIntStateOf(0) }
-    TabRow(pmSelected) {
-        for ((index, selection) in Selection.entries.withIndex()) {
-            Tab(
-                selected = pmSelected == index,
-                onClick = { pmSelected = index },
-            ) {
-                Text(
-                    text = selection.text,
-                    style = MaterialTheme.typography.titleLarge,
-                )
+    Code {
+        """
+        maven {
+            url = uri("https://maven.pkg.github.com/Nyayurin/yutori")
+            credentials { 
+                // 填入你的 Github 用户民及刚刚申请的 token
+                username = "actor"
+                password = "token"
             }
         }
-    }
-    when (pmSelected) {
-        Selection.GradleKotlinDSL.ordinal, Selection.GradleGroovyDSL.ordinal -> {
-            var fileSelected by remember { mutableIntStateOf(0) }
-            TabRow(fileSelected) {
-                for ((index, selection) in GradleFile.entries.withIndex()) {
-                    Tab(
-                        selected = fileSelected == index,
-                        onClick = { fileSelected = index },
-                    ) {
-                        Text(
-                            text =
-                                when (pmSelected) {
-                                    Selection.GradleKotlinDSL.ordinal -> selection.kotlinName
-                                    Selection.GradleGroovyDSL.ordinal -> selection.groovyName
-                                    else -> throw RuntimeException()
-                                },
-                            style = MaterialTheme.typography.titleLarge,
-                        )
-                    }
-                }
-            }
-
-            when (pmSelected) {
-                Selection.GradleKotlinDSL.ordinal -> {
-                    when (fileSelected) {
-                        GradleFile.Build.ordinal ->
-                            Code {
-                                """
-                                maven {
-                                    url = uri("https://maven.pkg.github.com/Nyayurin/yutori")
-                                    credentials { 
-                                        username = project.findProperty("gpr.actor") as String? ?: System.getenv("GITHUB_ACTOR")
-                                        password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
-                                    }
-                                }
-                                """.trimIndent()
-                            }
-
-                        GradleFile.Settings.ordinal ->
-                            Code {
-                                """
-                                maven {
-                                    url = uri("https://maven.pkg.github.com/Nyayurin/yutori")
-                                    credentials {
-                                        username = providers.gradleProperty("gpr.actor").orNull ?: System.getenv("GITHUB_ACTOR")
-                                        password = providers.gradleProperty("gpr.token").orNull ?: System.getenv("GITHUB_TOKEN")
-                                    }
-                                }
-                                """.trimIndent()
-                            }
-                    }
-                }
-
-                Selection.GradleGroovyDSL.ordinal -> {
-                    when (fileSelected) {
-                        GradleFile.Build.ordinal -> {
-                        }
-
-                        GradleFile.Settings.ordinal -> {
-                        }
-                    }
-                }
-            }
-            Text(
-                text = "修改 gradle.properties, 将你 Github 账号的 username 及刚刚创建的 token 填进去",
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Code {
-                """
-                gpr.actor = actor
-                gpr.token = token
-                """.trimIndent()
-            }
-            Text(
-                text = "或是通过环境变量提供",
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Code {
-                """
-                GITHUB_ACTOR = actor
-                GITHUB_TOKEN = token
-                """.trimIndent()
-            }
-        }
-
-        Selection.Maven.ordinal -> {
-        }
-
-        Selection.Amper.ordinal -> {
-        }
+        """.trimIndent()
     }
     Text(
         text = "引入依赖",
         style = MaterialTheme.typography.bodyLarge,
     )
-    when (pmSelected) {
-        Selection.GradleKotlinDSL.ordinal, Selection.GradleGroovyDSL.ordinal -> {
-            var implementationSelected by remember { mutableIntStateOf(0) }
-            TabRow(implementationSelected) {
-                for ((index, selection) in GradleImplementation.entries.withIndex()) {
-                    Tab(
-                        selected = implementationSelected == index,
-                        onClick = { implementationSelected = index },
-                    ) {
-                        Text(
-                            text = selection.text,
-                            style = MaterialTheme.typography.titleLarge,
-                        )
-                    }
-                }
-            }
-
-            var multiplatformSelected by remember { mutableIntStateOf(0) }
-            TabRow(multiplatformSelected) {
-                for ((index, selection) in Multiplatform.entries.withIndex()) {
-                    Tab(
-                        selected = multiplatformSelected == index,
-                        onClick = { multiplatformSelected = index },
-                    ) {
-                        Text(
-                            text = selection.text,
-                            style = MaterialTheme.typography.titleLarge,
-                        )
-                    }
-                }
-            }
-
-            when (pmSelected) {
-                Selection.GradleKotlinDSL.ordinal -> {
-                    val artifact =
-                        when (multiplatformSelected) {
-                            Multiplatform.KotlinMultiplatform.ordinal -> "yutori"
-                            Multiplatform.JVM.ordinal -> "yutori-jvm"
-                            Multiplatform.Android.ordinal -> "yutori-android"
-                            else -> throw RuntimeException()
-                        }
-                    when (implementationSelected) {
-                        GradleImplementation.VersionCatalog.ordinal -> {
-                            Code { "implementation(libs.yutori)" }
-                            Code {
-                                """
-                                [versions]
-                                yutori = "version"
-                                
-                                [libraries]
-                                yutori = { module = "cn.yurin.yutori:$artifact", version.ref = "yutori" }
-                                """.trimIndent()
-                            }
-                        }
-
-                        GradleImplementation.Inline.ordinal ->
-                            Code {
-                                "implementation(\"cn.yurin.yutori:$artifact:\$version\")"
-                            }
-                    }
-                }
-
-                Selection.GradleGroovyDSL.ordinal -> {
-                    when (implementationSelected) {
-                        GradleImplementation.VersionCatalog.ordinal -> {
-                        }
-
-                        GradleImplementation.Inline.ordinal -> {
-                        }
-                    }
-                }
-            }
-        }
-
-        Selection.Maven.ordinal -> {
-        }
-
-        Selection.Amper.ordinal -> {
-        }
+    Code {
+        "implementation(\"cn.yurin.yutori:yutori:\$version\")"
     }
     Text(
         text =
@@ -319,14 +150,14 @@ private fun Introduction(ender: Dp) {
     )
     Code {
         """
-        suspend fun app() = coroutineScope {
+        suspend fun app() {
             // 通过 builder 使用 DSL 构造一个 Yutori 对象
-            val yutori = yutori {
-                // 安装你需要的适配器
-                install(Adapter.Xxx) {
-                    // 在代码块内配置适配器
+            yutori {
+                // 安装你需要的模块
+                install(Adapter.Xxx(
+                    // 配置模块
                     key = value
-                }
+                ))
                 // 通用适配器设置
                 adapter {
                     // 设置监听器
@@ -374,9 +205,7 @@ private fun Introduction(ender: Dp) {
                         }
                     }
                 }
-            }
-            // 启动 Yutori
-            yutori.start()
+            }.start()
         }
         """.trimIndent()
     }
@@ -394,39 +223,7 @@ private fun Introduction(ender: Dp) {
     }
     Text(
         text = "至此, 你已经学会了 Yutori 的基本使用, 接下来请慢慢探索 Yutori 的无限可能吧!",
-        modifier = Modifier.padding(bottom = ender),
+        modifier = Modifier.padding(bottom = padding),
         style = MaterialTheme.typography.bodyLarge,
     )
-}
-
-private enum class Selection(
-    val text: String,
-) {
-    GradleKotlinDSL("Gradle Kotlin DSL"),
-    GradleGroovyDSL("Gradle Groovy DSL"),
-    Maven("Maven"),
-    Amper("Amper"),
-}
-
-private enum class GradleFile(
-    val kotlinName: String,
-    val groovyName: String,
-) {
-    Build("build.gradle.kts", "build.gradle"),
-    Settings("settings.gradle.kts", "settings.gradle"),
-}
-
-private enum class GradleImplementation(
-    val text: String,
-) {
-    VersionCatalog("Version Catalog"),
-    Inline("内嵌"),
-}
-
-private enum class Multiplatform(
-    val text: String,
-) {
-    KotlinMultiplatform("Kotlin Multiplatform"),
-    JVM("JVM"),
-    Android("Android"),
 }
