@@ -25,7 +25,6 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.lifecycle.viewModel.compose)
             implementation(libs.navigation.compose)
-            implementation(libs.compose.placeholder)
             implementation(libs.compose.material3.adaptive)
             implementation(libs.compose.material3.adaptive.layout)
             implementation(libs.compose.material3.adaptive.navigation)
